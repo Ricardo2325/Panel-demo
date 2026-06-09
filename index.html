@@ -4,269 +4,325 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peluquería Bella — Panel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0d0f1a;
+      --bg-primary:   #0d0f1a;
       --bg-secondary: #141728;
-      --bg-card: #1a1f35;
-      --bg-card-hover: #1f2540;
-      --border: #252b45;
-      --border-light: #1e2440;
-      --text-primary: #e8eaf6;
-      --text-secondary: #8892b0;
-      --text-muted: #4a5578;
+      --bg-card:      #1a1f35;
+      --bg-hover:     #1f2540;
+      --border:       #252b45;
+      --border-sub:   #1e2440;
+      --text-1: #e8eaf6;
+      --text-2: #8892b0;
+      --text-3: #4a5578;
 
-      --carlos: #4f8ef7;
-      --carlos-bg: rgba(79,142,247,0.12);
-      --carlos-border: rgba(79,142,247,0.35);
+      --carlos:  #4f8ef7;
+      --carlos-bg:  rgba(79,142,247,.12);
+      --carlos-bd:  rgba(79,142,247,.35);
 
-      --laura: #c678dd;
-      --laura-bg: rgba(198,120,221,0.12);
-      --laura-border: rgba(198,120,221,0.35);
+      --laura:   #c678dd;
+      --laura-bg:   rgba(198,120,221,.12);
+      --laura-bd:   rgba(198,120,221,.35);
 
-      --ana: #56b6c2;
-      --ana-bg: rgba(86,182,194,0.12);
-      --ana-border: rgba(86,182,194,0.35);
+      --ana:     #56b6c2;
+      --ana-bg:     rgba(86,182,194,.12);
+      --ana-bd:     rgba(86,182,194,.35);
 
       --green: #98c379;
-      --red: #e06c75;
-      --blue: #61dafb;
+      --red:   #e06c75;
+      --blue:  #61dafb;
 
       --hour-h: 88px;
-      --start-h: 9;
-      --end-h: 17;
+      --s-hour: 9;
+      --e-hour: 17;
     }
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
       background: var(--bg-primary);
-      color: var(--text-primary);
+      color: var(--text-1);
       min-height: 100vh;
     }
 
-    /* ─── LOADING ──────────────────────────────────────── */
+    /* ── Material Symbols ─────────────────────────────── */
+    .ms {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal; font-style: normal;
+      font-size: 20px; line-height: 1;
+      letter-spacing: normal; text-transform: none;
+      display: inline-block; white-space: nowrap;
+      direction: ltr; user-select: none;
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+
+    /* ── Loading ──────────────────────────────────────── */
     #loading {
-      position: fixed; inset: 0;
-      background: var(--bg-primary);
+      position: fixed; inset: 0; background: var(--bg-primary);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 18px; z-index: 9999;
-      transition: opacity 0.4s;
+      gap: 18px; z-index: 9999; transition: opacity .4s;
     }
     .spinner {
       width: 42px; height: 42px;
-      border: 3px solid var(--border);
-      border-top-color: var(--carlos);
-      border-radius: 50%;
-      animation: spin 0.75s linear infinite;
+      border: 3px solid var(--border); border-top-color: var(--carlos);
+      border-radius: 50%; animation: spin .75s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ─── HEADER ───────────────────────────────────────── */
+    /* ── Header ───────────────────────────────────────── */
     .header {
-      height: 64px;
-      background: var(--bg-secondary);
+      height: 64px; background: var(--bg-secondary);
       border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; padding: 0 24px; gap: 20px;
+      display: flex; align-items: center; padding: 0 20px; gap: 14px;
       position: sticky; top: 0; z-index: 200;
     }
     .logo {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 17px; font-weight: 700; letter-spacing: -0.3px;
-      white-space: nowrap;
+      display: flex; align-items: center; gap: 9px;
+      font-size: 16px; font-weight: 700; letter-spacing: -.3px; white-space: nowrap;
     }
     .logo-icon {
-      width: 34px; height: 34px;
+      width: 32px; height: 32px;
       background: linear-gradient(135deg, #4f8ef7 0%, #c678dd 100%);
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 17px; user-select: none;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
     }
-    .hdiv { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+    .logo-icon .ms { font-size: 18px; color: #fff; }
+    .hdiv { width: 1px; height: 26px; background: var(--border); flex-shrink: 0; }
 
-    .date-nav { display: flex; align-items: center; gap: 6px; }
-    .date-nav button {
-      width: 30px; height: 30px;
-      border: 1px solid var(--border); background: var(--bg-card);
-      color: var(--text-secondary); border-radius: 7px;
+    /* date nav */
+    .date-nav { display: flex; align-items: center; gap: 5px; }
+    .nav-btn {
+      width: 28px; height: 28px; border: 1px solid var(--border);
+      background: var(--bg-card); color: var(--text-2); border-radius: 7px;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s; font-size: 15px; line-height: 1;
+      transition: all .15s;
     }
-    .date-nav button:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--carlos); }
-    .btn-today { font-size: 11px !important; width: auto !important; padding: 0 10px !important; }
+    .nav-btn:hover { background: var(--bg-hover); color: var(--text-1); border-color: var(--carlos); }
+    .nav-btn .ms { font-size: 18px; }
+    .btn-today {
+      padding: 0 10px; height: 28px; border: 1px solid var(--border);
+      background: var(--bg-card); color: var(--text-2); border-radius: 7px;
+      cursor: pointer; font-size: 11px; font-weight: 500;
+      transition: all .15s; white-space: nowrap;
+    }
+    .btn-today:hover { background: var(--bg-hover); color: var(--text-1); border-color: var(--carlos); }
     .date-display {
-      font-size: 13px; font-weight: 600; color: var(--text-primary);
-      padding: 6px 13px; background: var(--bg-card);
+      font-size: 13px; font-weight: 600; color: var(--text-1);
+      padding: 5px 12px; background: var(--bg-card);
       border: 1px solid var(--border); border-radius: 7px;
-      cursor: pointer; min-width: 210px; text-align: center;
-      user-select: none; transition: border-color 0.15s;
+      cursor: pointer; min-width: 190px; text-align: center;
+      user-select: none; transition: border-color .15s;
     }
     .date-display:hover { border-color: var(--carlos); }
     #date-input { position: absolute; opacity: 0; width: 0; height: 0; }
 
-    .stats { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+    /* view tabs */
+    .vtabs {
+      display: flex; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 8px; padding: 3px; gap: 2px;
+    }
+    .vtab {
+      display: flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border: none; border-radius: 6px;
+      background: transparent; color: var(--text-2);
+      cursor: pointer; font-size: 12px; font-weight: 500; transition: all .15s;
+    }
+    .vtab .ms { font-size: 16px; }
+    .vtab:hover { color: var(--text-1); }
+    .vtab.active {
+      background: var(--bg-hover); color: var(--text-1);
+      box-shadow: 0 1px 3px rgba(0,0,0,.35);
+    }
+
+    /* stats */
+    .stats { margin-left: auto; display: flex; gap: 8px; align-items: center; }
     .stat-card {
-      display: flex; align-items: center; gap: 9px;
-      padding: 7px 14px; background: var(--bg-card);
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px; background: var(--bg-card);
       border: 1px solid var(--border); border-radius: 9px;
     }
-    .stat-icon { font-size: 17px; }
-    .stat-value { font-size: 18px; font-weight: 700; line-height: 1.1; }
-    .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
-    .realtime-pill {
-      display: flex; align-items: center; gap: 7px;
-      padding: 7px 14px; background: var(--bg-card);
+    .stat-card .ms { font-size: 18px; color: var(--text-2); }
+    .stat-value { font-size: 17px; font-weight: 700; line-height: 1.1; }
+    .stat-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
+    .rt-pill {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px; background: var(--bg-card);
       border: 1px solid var(--border); border-radius: 9px;
-      font-size: 12px; color: var(--text-secondary);
+      font-size: 12px; color: var(--text-2);
     }
     .rt-dot {
       width: 7px; height: 7px; border-radius: 50%; background: var(--green);
-      box-shadow: 0 0 0 0 rgba(152,195,121,.5);
       animation: rtpulse 2.2s ease infinite;
     }
     @keyframes rtpulse {
-      0%   { box-shadow: 0 0 0 0 rgba(152,195,121,.5); }
-      70%  { box-shadow: 0 0 0 7px rgba(152,195,121,0); }
-      100% { box-shadow: 0 0 0 0 rgba(152,195,121,0); }
+      0%  { box-shadow: 0 0 0 0 rgba(152,195,121,.5); }
+      70% { box-shadow: 0 0 0 7px rgba(152,195,121,0); }
+      100%{ box-shadow: 0 0 0 0 rgba(152,195,121,0); }
     }
 
-    /* ─── MAIN ─────────────────────────────────────────── */
-    .main { padding: 22px 24px; display: flex; flex-direction: column; gap: 22px; }
+    /* ── Main ─────────────────────────────────────────── */
+    .main { padding: 20px 22px; display: flex; flex-direction: column; gap: 20px; }
 
-    /* ─── SECTION SHELL ────────────────────────────────── */
-    .section {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden;
-    }
+    /* ── Section ──────────────────────────────────────── */
+    .section { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
     .section-hdr {
-      padding: 14px 20px; border-bottom: 1px solid var(--border);
+      padding: 13px 20px; border-bottom: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between;
     }
     .section-title {
       font-size: 11px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.09em;
-      color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: .09em; color: var(--text-3);
     }
 
-    /* ─── CALENDAR ─────────────────────────────────────── */
+    /* ── Calendar shared ──────────────────────────────── */
     .cal-col-hdr {
-      display: grid;
-      grid-template-columns: 52px 1fr 1fr 1fr;
-      border-bottom: 1px solid var(--border);
+      display: grid; border-bottom: 1px solid var(--border);
     }
     .col-hdr {
-      padding: 12px 14px; font-size: 13px; font-weight: 600;
-      display: flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 11px 10px; font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
     }
     .col-hdr:not(:first-child) { border-left: 1px solid var(--border); }
-    .col-hdr.time-hdr { font-size: 10px; color: var(--text-muted); }
-    .bdot { width: 7px; height: 7px; border-radius: 50%; }
+    .col-hdr.time-hdr { font-size: 10px; color: var(--text-3); }
+    .bdot { width: 6px; height: 6px; border-radius: 50%; }
     .carlos-dot { background: var(--carlos); }
     .laura-dot  { background: var(--laura); }
     .ana-dot    { background: var(--ana); }
 
     .cal-scroll { overflow-y: auto; max-height: 660px; }
-    .cal-grid {
-      display: grid;
-      grid-template-columns: 52px 1fr 1fr 1fr;
-    }
+    .cal-grid { display: grid; }
 
     /* time axis */
     .time-axis { display: flex; flex-direction: column; }
     .time-slot {
-      height: var(--hour-h);
-      display: flex; align-items: flex-start; justify-content: flex-end;
-      padding: 6px 8px 0 0;
-      font-size: 10px; color: var(--text-muted); font-weight: 500;
-      position: relative;
+      height: var(--hour-h); display: flex; align-items: flex-start;
+      justify-content: flex-end; padding: 6px 7px 0 0;
+      font-size: 10px; color: var(--text-3); font-weight: 500; position: relative;
     }
     .time-slot::after {
       content: ''; position: absolute; right: 0; top: 0;
       width: 5px; height: 1px; background: var(--border);
     }
 
-    /* barber columns */
-    .barber-col {
-      position: relative; border-left: 1px solid var(--border);
-    }
-    .h-line {
-      position: absolute; left: 0; right: 0; height: 1px;
-      background: var(--border); opacity: 0.45; pointer-events: none;
-    }
-    .h-half {
-      position: absolute; left: 0; right: 0; height: 1px;
-      background: var(--border); opacity: 0.18; pointer-events: none;
-    }
-    .now-line {
-      position: absolute; left: 0; right: 0; height: 2px;
-      background: var(--red); z-index: 15; pointer-events: none;
-    }
+    /* barber/day columns */
+    .barber-col { position: relative; border-left: 1px solid var(--border); }
+    .h-line { position: absolute; left:0; right:0; height:1px; background:var(--border); opacity:.45; pointer-events:none; }
+    .h-half { position: absolute; left:0; right:0; height:1px; background:var(--border); opacity:.18; pointer-events:none; }
+    .now-line { position: absolute; left:0; right:0; height:2px; background:var(--red); z-index:15; pointer-events:none; }
     .now-line::before {
-      content: ''; position: absolute;
-      left: -4px; top: -3px; width: 8px; height: 8px;
-      border-radius: 50%; background: var(--red);
+      content:''; position:absolute; left:-4px; top:-3px;
+      width:8px; height:8px; border-radius:50%; background:var(--red);
     }
 
     /* appointment blocks */
     .appt {
-      position: absolute; left: 4px; right: 4px;
-      border-radius: 8px; padding: 6px 8px;
-      border: 1px solid; overflow: hidden;
-      cursor: default; transition: filter 0.15s, transform 0.15s;
-      min-height: 38px;
+      position: absolute; border-radius: 7px; padding: 5px 7px;
+      border: 1px solid; overflow: hidden; cursor: default;
+      transition: filter .15s, transform .15s; min-height: 36px;
     }
-    .appt:hover { filter: brightness(1.18); transform: translateY(-1px); z-index: 10; }
-    .appt-carlos { background: var(--carlos-bg); border-color: var(--carlos-border); color: var(--carlos); }
-    .appt-laura  { background: var(--laura-bg);  border-color: var(--laura-border);  color: var(--laura); }
-    .appt-ana    { background: var(--ana-bg);    border-color: var(--ana-border);    color: var(--ana); }
+    .appt:hover { filter: brightness(1.2); transform: translateY(-1px); z-index: 10; }
+    .appt-carlos { background:var(--carlos-bg); border-color:var(--carlos-bd); color:var(--carlos); }
+    .appt-laura  { background:var(--laura-bg);  border-color:var(--laura-bd);  color:var(--laura); }
+    .appt-ana    { background:var(--ana-bg);    border-color:var(--ana-bd);    color:var(--ana); }
     .appt-cancelled {
-      background: rgba(74,85,120,0.08) !important;
-      border-color: rgba(74,85,120,0.25) !important;
-      color: var(--text-muted) !important; opacity: 0.55;
+      background:rgba(74,85,120,.07)!important; border-color:rgba(74,85,120,.22)!important;
+      color:var(--text-3)!important; opacity:.55;
     }
-    .appt-completed { opacity: 0.65; }
-    .appt-name    { font-weight: 600; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .appt-svc     { font-size: 11px; opacity: 0.78; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .appt-hr      { font-size: 10px; opacity: 0.62; margin-top: 2px; }
+    .appt-completed { opacity: .65; }
+    .appt-name { font-weight:600; font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .appt-svc  { font-size:10px; opacity:.78; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .appt-hr   { font-size:10px; opacity:.6; margin-top:1px; }
     .appt-cancelled .appt-name,
     .appt-cancelled .appt-svc { text-decoration: line-through; }
-    .sbadge {
-      position: absolute; top: 5px; right: 6px;
-      width: 6px; height: 6px; border-radius: 50%;
-    }
-    .sb-confirmada  { background: var(--blue); }
-    .sb-completada  { background: var(--green); }
-    .sb-cancelada   { background: var(--text-muted); }
+    .sbadge { position:absolute; top:5px; right:5px; width:5px; height:5px; border-radius:50%; }
+    .sb-confirmada { background:var(--blue); }
+    .sb-completada { background:var(--green); }
+    .sb-cancelada  { background:var(--text-3); }
 
     @keyframes apptIn {
-      from { opacity: 0; transform: scale(0.88) translateY(-4px); }
-      to   { opacity: 1; transform: scale(1)    translateY(0); }
+      from { opacity:0; transform:scale(.88) translateY(-4px); }
+      to   { opacity:1; transform:scale(1)   translateY(0); }
     }
-    .appt-new { animation: apptIn 0.35s cubic-bezier(.34,1.56,.64,1) forwards; }
+    .appt-new { animation: apptIn .35s cubic-bezier(.34,1.56,.64,1) forwards; }
 
-    /* ─── TABLE ────────────────────────────────────────── */
+    /* ── Week view extras ─────────────────────────────── */
+    .week-col-hdr {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 8px 6px; gap: 3px;
+    }
+    .week-day-name { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); }
+    .week-day-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600; color: var(--text-1);
+    }
+    .week-day-num.today-num {
+      background: var(--carlos); color: #fff;
+    }
+    .week-today-bg { background: rgba(79,142,247,.03); }
+
+    /* ── Month view ───────────────────────────────────── */
+    .month-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+    }
+    .month-day-name {
+      padding: 10px 8px; text-align: center;
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-3);
+      border-bottom: 1px solid var(--border);
+    }
+    .month-cell {
+      min-height: 105px; padding: 7px 6px;
+      border-right: 1px solid var(--border-sub);
+      border-bottom: 1px solid var(--border-sub);
+      cursor: pointer; transition: background .12s; vertical-align: top;
+    }
+    .month-cell:hover { background: var(--bg-card); }
+    .month-cell:nth-child(7n+1) { }
+    .month-cell:nth-child(7n)   { border-right: none; }
+    .month-date {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 600; margin-bottom: 4px;
+      color: var(--text-1);
+    }
+    .month-date.month-today { background: var(--carlos); color: #fff; }
+    .month-cell.outside-month .month-date { color: var(--text-3); opacity: .45; }
+    .month-cell.outside-month { background: rgba(13,15,26,.3); }
+    .month-appt {
+      display: flex; align-items: center; gap: 4px;
+      padding: 2px 4px; border-radius: 4px; margin-bottom: 2px;
+      font-size: 10px; font-weight: 500; overflow: hidden;
+      background: rgba(255,255,255,.04); color: var(--text-2);
+      white-space: nowrap;
+    }
+    .month-appt .m-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .month-appt.m-carlos .m-dot { background: var(--carlos); }
+    .month-appt.m-laura  .m-dot { background: var(--laura); }
+    .month-appt.m-ana    .m-dot { background: var(--ana); }
+    .month-appt.m-canc   { opacity: .45; text-decoration: line-through; }
+    .month-appt span.m-txt { overflow: hidden; text-overflow: ellipsis; }
+    .month-more { font-size: 10px; color: var(--text-3); padding: 1px 4px; }
+
+    /* ── Table ────────────────────────────────────────── */
     .tbl-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     thead tr { border-bottom: 1px solid var(--border); }
     th {
-      padding: 11px 16px; text-align: left;
+      padding: 10px 15px; text-align: left;
       font-size: 10px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.07em;
-      color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: .07em; color: var(--text-3);
     }
-    tbody tr {
-      border-bottom: 1px solid var(--border-light);
-      transition: background 0.12s;
-    }
+    tbody tr { border-bottom: 1px solid var(--border-sub); transition: background .12s; }
     tbody tr:hover { background: var(--bg-card); }
     tbody tr:last-child { border-bottom: none; }
-    td { padding: 11px 16px; }
-    .td-name { font-weight: 600; }
-    .td-phone { color: var(--text-secondary); font-family: monospace; font-size: 12px; }
-    .td-svc   { color: var(--text-secondary); }
-    .cancelled-row td { opacity: 0.45; }
+    td { padding: 10px 15px; }
+    .td-name  { font-weight: 600; }
+    .td-phone { color: var(--text-2); font-family: monospace; font-size: 12px; }
+    .td-svc   { color: var(--text-2); }
+    .td-date  { color: var(--text-2); font-size: 12px; }
+    .cancelled-row td { opacity: .42; }
     .cancelled-row .td-name,
     .cancelled-row .td-svc { text-decoration: line-through; }
 
@@ -274,57 +330,49 @@
       display: inline-flex; align-items: center; gap: 5px;
       padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 500;
     }
-    .pill-carlos { background: var(--carlos-bg); color: var(--carlos); border: 1px solid var(--carlos-border); }
-    .pill-laura  { background: var(--laura-bg);  color: var(--laura);  border: 1px solid var(--laura-border); }
-    .pill-ana    { background: var(--ana-bg);    color: var(--ana);    border: 1px solid var(--ana-border); }
+    .pill-carlos { background:var(--carlos-bg); color:var(--carlos); border:1px solid var(--carlos-bd); }
+    .pill-laura  { background:var(--laura-bg);  color:var(--laura);  border:1px solid var(--laura-bd); }
+    .pill-ana    { background:var(--ana-bg);    color:var(--ana);    border:1px solid var(--ana-bd); }
 
-    .status-pill {
+    .sp {
       display: inline-flex; align-items: center; gap: 5px;
       padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500;
     }
-    .sp-confirmada { background: rgba(97,218,251,.09);  color: var(--blue);  border: 1px solid rgba(97,218,251,.28); }
-    .sp-completada { background: rgba(152,195,121,.09); color: var(--green); border: 1px solid rgba(152,195,121,.28); }
-    .sp-cancelada  { background: rgba(74,85,120,.09);   color: var(--text-muted); border: 1px solid rgba(74,85,120,.25); }
+    .sp-confirmada { background:rgba(97,218,251,.08);  color:var(--blue);  border:1px solid rgba(97,218,251,.25); }
+    .sp-completada { background:rgba(152,195,121,.08); color:var(--green); border:1px solid rgba(152,195,121,.25); }
+    .sp-cancelada  { background:rgba(74,85,120,.08);   color:var(--text-3);border:1px solid rgba(74,85,120,.22); }
 
     .actions { display: flex; gap: 5px; }
     .btn {
+      display: flex; align-items: center; gap: 3px;
       padding: 4px 9px; border-radius: 6px; font-size: 11px; font-weight: 500;
-      border: 1px solid; cursor: pointer; transition: all 0.12s; white-space: nowrap;
+      border: 1px solid; cursor: pointer; transition: all .12s; white-space: nowrap;
     }
-    .btn-ok  { background: rgba(152,195,121,.09); color: var(--green); border-color: rgba(152,195,121,.28); }
-    .btn-ok:hover  { background: rgba(152,195,121,.2); }
-    .btn-ko  { background: rgba(224,108,117,.09); color: var(--red);   border-color: rgba(224,108,117,.28); }
-    .btn-ko:hover  { background: rgba(224,108,117,.2); }
-    .btn:disabled  { opacity: 0.28; cursor: not-allowed; pointer-events: none; }
+    .btn .ms { font-size: 14px; }
+    .btn-ok { background:rgba(152,195,121,.08); color:var(--green); border-color:rgba(152,195,121,.25); }
+    .btn-ok:hover { background:rgba(152,195,121,.18); }
+    .btn-ko { background:rgba(224,108,117,.08); color:var(--red);   border-color:rgba(224,108,117,.25); }
+    .btn-ko:hover { background:rgba(224,108,117,.18); }
+    .btn:disabled { opacity:.25; cursor:not-allowed; pointer-events:none; }
 
-    .empty {
-      padding: 52px 24px; text-align: center;
-      color: var(--text-muted); font-size: 14px;
-    }
-    .empty-icon { font-size: 38px; margin-bottom: 10px; }
+    .empty { padding: 50px 24px; text-align: center; color: var(--text-3); }
+    .empty .ms { font-size: 40px; display: block; margin-bottom: 12px; opacity: .5; }
 
-    /* ─── TOAST ────────────────────────────────────────── */
-    #toasts {
-      position: fixed; top: 74px; right: 22px;
-      z-index: 1000; display: flex; flex-direction: column; gap: 7px;
-    }
+    /* ── Toast ────────────────────────────────────────── */
+    #toasts { position: fixed; top: 72px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 7px; }
     .toast {
       background: var(--bg-card); border: 1px solid var(--border);
       border-left: 3px solid var(--green);
-      border-radius: 10px; padding: 11px 15px; min-width: 270px;
-      animation: toastIn 0.28s ease-out;
-      font-size: 13px;
+      border-radius: 10px; padding: 11px 15px; min-width: 265px;
+      animation: toastIn .28s ease-out; font-size: 13px;
     }
     .toast.err { border-left-color: var(--red); }
-    @keyframes toastIn {
-      from { opacity: 0; transform: translateX(110%); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+    @keyframes toastIn { from { opacity:0; transform:translateX(110%); } to { opacity:1; transform:translateX(0); } }
     .toast-title { font-weight: 600; color: var(--green); margin-bottom: 2px; }
     .toast.err .toast-title { color: var(--red); }
-    .toast-body  { color: var(--text-secondary); }
+    .toast-body  { color: var(--text-2); }
 
-    /* ─── SCROLLBAR ────────────────────────────────────── */
+    /* ── Scrollbar ────────────────────────────────────── */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -333,55 +381,69 @@
 </head>
 <body>
 
-<!-- Loading -->
 <div id="loading">
   <div class="spinner"></div>
-  <div style="color:var(--text-secondary);font-size:13px;">Cargando citas…</div>
+  <div style="color:var(--text-2);font-size:13px;">Cargando citas…</div>
 </div>
 
-<!-- Toasts -->
 <div id="toasts"></div>
 
 <!-- ═══ HEADER ═══════════════════════════════════════════ -->
 <header class="header">
   <div class="logo">
-    <div class="logo-icon">✂</div>
+    <div class="logo-icon"><span class="ms">content_cut</span></div>
     Peluquería Bella
   </div>
 
   <div class="hdiv"></div>
 
   <div class="date-nav">
-    <button onclick="shiftDay(-1)" title="Día anterior">‹</button>
+    <button class="nav-btn" onclick="shiftDate(-1)" title="Anterior">
+      <span class="ms">chevron_left</span>
+    </button>
     <div class="date-display" id="date-display" onclick="document.getElementById('date-input').click()">—</div>
     <input type="date" id="date-input" onchange="pickDate(this.value)">
-    <button onclick="shiftDay(1)"  title="Día siguiente">›</button>
-    <button class="btn-today" onclick="goToday()" title="Hoy">Hoy</button>
+    <button class="nav-btn" onclick="shiftDate(1)" title="Siguiente">
+      <span class="ms">chevron_right</span>
+    </button>
+    <button class="btn-today" onclick="goToday()">Hoy</button>
+  </div>
+
+  <div class="vtabs">
+    <button class="vtab active" id="vtab-day"   onclick="setView('day')">
+      <span class="ms">view_day</span> Día
+    </button>
+    <button class="vtab" id="vtab-week"  onclick="setView('week')">
+      <span class="ms">view_week</span> Semana
+    </button>
+    <button class="vtab" id="vtab-month" onclick="setView('month')">
+      <span class="ms">calendar_month</span> Mes
+    </button>
   </div>
 
   <div class="stats">
     <div class="stat-card">
-      <span class="stat-icon">📅</span>
+      <span class="ms">calendar_today</span>
       <div>
         <div class="stat-value" id="s-total">—</div>
         <div class="stat-label">Total</div>
       </div>
     </div>
     <div class="stat-card">
-      <span class="stat-icon">✅</span>
+      <span class="ms" style="color:var(--green)">check_circle</span>
       <div>
         <div class="stat-value" id="s-done">—</div>
         <div class="stat-label">Completadas</div>
       </div>
     </div>
     <div class="stat-card">
-      <span class="stat-icon">⏳</span>
+      <span class="ms" style="color:var(--blue)">schedule</span>
       <div>
         <div class="stat-value" id="s-pend">—</div>
         <div class="stat-label">Pendientes</div>
       </div>
     </div>
-    <div class="realtime-pill">
+    <div class="rt-pill">
       <div class="rt-dot"></div>
       Realtime
     </div>
@@ -390,184 +452,394 @@
 
 <!-- ═══ MAIN ══════════════════════════════════════════════ -->
 <main class="main">
-
-  <!-- Calendar -->
   <div class="section">
     <div class="section-hdr">
-      <span class="section-title">Vista de Calendario</span>
+      <span class="section-title" id="cal-title">Vista de Calendario</span>
     </div>
-
-    <div class="cal-col-hdr">
-      <div class="col-hdr time-hdr">Hora</div>
-      <div class="col-hdr"><span class="bdot carlos-dot"></span> Carlos</div>
-      <div class="col-hdr"><span class="bdot laura-dot"></span> Laura</div>
-      <div class="col-hdr"><span class="bdot ana-dot"></span> Ana</div>
-    </div>
-
-    <div class="cal-scroll">
-      <div class="cal-grid" id="cal-grid">
-        <div class="time-axis" id="time-axis"></div>
-        <div class="barber-col" id="col-carlos"></div>
-        <div class="barber-col" id="col-laura"></div>
-        <div class="barber-col" id="col-ana"></div>
-      </div>
-    </div>
+    <div id="cal-content"></div>
   </div>
 
-  <!-- Table -->
-  <div class="section">
+  <div class="section" id="tbl-section">
     <div class="section-hdr">
-      <span class="section-title">Lista de Citas</span>
+      <span class="section-title" id="tbl-title">Lista de Citas</span>
     </div>
     <div class="tbl-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>Cliente</th>
-            <th>Teléfono</th>
-            <th>Servicio</th>
-            <th>Peluquero</th>
-            <th>Hora</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
+        <thead id="tbl-head"></thead>
         <tbody id="tbl-body">
-          <tr><td colspan="7"><div class="empty"><div class="empty-icon">✂</div>Cargando…</div></td></tr>
+          <tr><td colspan="7"><div class="empty"><span class="ms">content_cut</span>Cargando…</div></td></tr>
         </tbody>
       </table>
     </div>
   </div>
-
 </main>
 
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-// ─── Config ───────────────────────────────────────────────────
-const SB_URL  = 'https://stkifrbemcsadgvfzpgg.supabase.co'
-const SB_KEY  = 'sb_publishable_xQGCVpjQOQ2le38Z1CAIug_LWQVmT3_'
-const sb      = createClient(SB_URL, SB_KEY)
+const SB_URL = 'https://stkifrbemcsadgvfzpgg.supabase.co'
+const SB_KEY = 'sb_publishable_xQGCVpjQOQ2le38Z1CAIug_LWQVmT3_'
+const sb = createClient(SB_URL, SB_KEY)
 
-const HOUR_H  = 88          // px per hour on calendar
-const S_HOUR  = 9           // schedule start
-const E_HOUR  = 17          // schedule end
+const HOUR_H  = 88
+const S_HOUR  = 9
+const E_HOUR  = 17
 const TOT_H   = E_HOUR - S_HOUR
-const APPT_DUR = 60         // assumed appointment duration (minutes)
-
-const BARBERS = ['carlos', 'laura', 'ana']
+const APPT_DUR = 60
+const BARBERS  = ['carlos', 'laura', 'ana']
+const DAY_ABBR = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
+const MONTH_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+const MONTH_SH = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']
 
 let curDate  = new Date()
+let viewMode = 'day'
 let appts    = []
 let rtChan   = null
+let viewStart = '', viewEnd = ''
 
-// ─── Date helpers ─────────────────────────────────────────────
-const pad  = n => String(n).padStart(2,'0')
-const dateStr  = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`
-const fmtDisp  = d => d.toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
-                       .replace(/^\w/, c => c.toUpperCase())
-const fmtTime  = t => { const [h,m] = t.split(':'); return `${h}:${m}` }
-const toMin    = t => { const [h,m] = t.split(':').map(Number); return h*60+m }
-const topPx    = min => ((min - S_HOUR*60) / 60) * HOUR_H
+// ── Helpers ───────────────────────────────────────────────────
+const pad     = n => String(n).padStart(2,'0')
+const dateStr = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`
+const fmtTime = t => { const [h,m] = t.split(':'); return `${h}:${m}` }
+const toMin   = t => { const [h,m] = t.split(':').map(Number); return h*60+m }
+const topPx   = min => ((min - S_HOUR*60) / 60) * HOUR_H
 
-// ─── Navigation ───────────────────────────────────────────────
-window.shiftDay  = d  => { curDate.setDate(curDate.getDate() + d); loadDay() }
-window.goToday   = () => { curDate = new Date(); loadDay() }
-window.pickDate  = v  => { curDate = new Date(v + 'T12:00:00'); loadDay() }
+function fmtDate(d) {
+  return d.toLocaleDateString('es-ES', { day:'numeric', month:'short' })
+}
+function fmtDateLong(d) {
+  return d.toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
+           .replace(/^\w/, c => c.toUpperCase())
+}
 
+function esc(s) {
+  return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+}
+
+// ── Week / Month range ────────────────────────────────────────
+function weekBounds(d) {
+  const dow = d.getDay()
+  const diff = dow === 0 ? -6 : 1 - dow
+  const mon = new Date(d); mon.setDate(d.getDate() + diff); mon.setHours(12,0,0,0)
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6)
+  const days = Array.from({length:7}, (_,i) => { const x=new Date(mon); x.setDate(mon.getDate()+i); return x })
+  return { mon, sun, days }
+}
+
+function monthBounds(d) {
+  const y = d.getFullYear(), m = d.getMonth()
+  const first = new Date(y, m, 1)
+  const last  = new Date(y, m+1, 0)
+  const dow = first.getDay()
+  const startOff = dow === 0 ? -6 : 1 - dow
+  const start = new Date(first); start.setDate(first.getDate() + startOff)
+  const lastDow = last.getDay()
+  const endOff = lastDow === 0 ? 0 : 7 - lastDow
+  const end = new Date(last); end.setDate(last.getDate() + endOff)
+  const days = []
+  let c = new Date(start)
+  while (c <= end) { days.push(new Date(c)); c.setDate(c.getDate()+1) }
+  return { first, last, days, year:y, month:m }
+}
+
+function getViewRange() {
+  if (viewMode === 'day') {
+    const ds = dateStr(curDate)
+    return { start: ds, end: ds }
+  } else if (viewMode === 'week') {
+    const { mon, sun } = weekBounds(curDate)
+    return { start: dateStr(mon), end: dateStr(sun) }
+  } else {
+    const { first, last } = monthBounds(curDate)
+    return { start: dateStr(first), end: dateStr(last) }
+  }
+}
+
+// ── Header sync ───────────────────────────────────────────────
 function syncHeader() {
-  document.getElementById('date-display').textContent = fmtDisp(curDate)
+  let txt
+  if (viewMode === 'day') {
+    txt = fmtDateLong(curDate)
+  } else if (viewMode === 'week') {
+    const { mon, sun } = weekBounds(curDate)
+    if (mon.getMonth() === sun.getMonth()) {
+      txt = `${mon.getDate()} – ${sun.getDate()} ${MONTH_SH[mon.getMonth()]} ${mon.getFullYear()}`
+    } else {
+      txt = `${mon.getDate()} ${MONTH_SH[mon.getMonth()]} – ${sun.getDate()} ${MONTH_SH[sun.getMonth()]} ${sun.getFullYear()}`
+    }
+    txt = txt.charAt(0).toUpperCase() + txt.slice(1)
+  } else {
+    txt = `${MONTH_ES[curDate.getMonth()]} ${curDate.getFullYear()}`
+  }
+  document.getElementById('date-display').textContent = txt
   document.getElementById('date-input').value = dateStr(curDate)
 }
 
-// ─── Calendar structure (built once per load) ──────────────────
-function buildCalStructure() {
-  const axis = document.getElementById('time-axis')
-  axis.innerHTML = ''
+// ── Navigation ────────────────────────────────────────────────
+window.shiftDate = delta => {
+  const d = new Date(curDate)
+  if (viewMode === 'day') {
+    d.setDate(d.getDate() + delta)
+  } else if (viewMode === 'week') {
+    d.setDate(d.getDate() + delta * 7)
+  } else {
+    d.setMonth(d.getMonth() + delta)
+  }
+  curDate = d
+  loadView()
+}
+window.goToday = () => { curDate = new Date(); loadView() }
+window.pickDate = v => { curDate = new Date(v + 'T12:00:00'); loadView() }
+window.setView = mode => {
+  viewMode = mode
+  document.querySelectorAll('.vtab').forEach(t => t.classList.remove('active'))
+  document.getElementById(`vtab-${mode}`).classList.add('active')
+  loadView()
+}
+window.goDayFromMonth = ds => {
+  curDate = new Date(ds + 'T12:00:00')
+  window.setView('day')
+}
 
-  BARBERS.forEach(b => {
-    const col = document.getElementById(`col-${b}`)
-    col.innerHTML = ''
-    col.style.height = `${TOT_H * HOUR_H}px`
-
-    for (let i = 0; i <= TOT_H; i++) {
-      const l = document.createElement('div')
-      l.className = 'h-line'; l.style.top = `${i * HOUR_H}px`
-      col.appendChild(l)
-      if (i < TOT_H) {
-        const hl = document.createElement('div')
-        hl.className = 'h-half'; hl.style.top = `${i * HOUR_H + HOUR_H/2}px`
-        col.appendChild(hl)
-      }
-    }
-  })
-
+// ── Calendar DOM builders ─────────────────────────────────────
+function buildTimeAxis(container) {
   for (let h = S_HOUR; h < E_HOUR; h++) {
     const s = document.createElement('div')
     s.className = 'time-slot'; s.style.height = `${HOUR_H}px`
     s.textContent = `${pad(h)}:00`
-    axis.appendChild(s)
+    container.appendChild(s)
   }
 }
 
-// ─── Calendar render ──────────────────────────────────────────
-function renderCal(data) {
-  BARBERS.forEach(b => {
-    const col = document.getElementById(`col-${b}`)
-    col.querySelectorAll('.appt, .now-line').forEach(e => e.remove())
-  })
-
-  // Current-time indicator
-  const todayStr = dateStr(new Date())
-  if (dateStr(curDate) === todayStr) {
-    const now = new Date()
-    const nowMin = now.getHours()*60 + now.getMinutes()
-    if (nowMin >= S_HOUR*60 && nowMin <= E_HOUR*60) {
-      const top = topPx(nowMin)
-      BARBERS.forEach(b => {
-        const line = document.createElement('div')
-        line.className = 'now-line'; line.style.top = `${top}px`
-        document.getElementById(`col-${b}`).appendChild(line)
-      })
+function buildGridLines(col) {
+  col.style.height = `${TOT_H * HOUR_H}px`
+  for (let i = 0; i <= TOT_H; i++) {
+    const l = document.createElement('div')
+    l.className = 'h-line'; l.style.top = `${i * HOUR_H}px`
+    col.appendChild(l)
+    if (i < TOT_H) {
+      const hl = document.createElement('div')
+      hl.className = 'h-half'; hl.style.top = `${i * HOUR_H + HOUR_H/2}px`
+      col.appendChild(hl)
     }
   }
+}
 
-  data.forEach(a => {
+// ── Overlap layout for week view ──────────────────────────────
+function layoutAppts(dayAppts) {
+  const sorted = [...dayAppts].sort((a,b) => toMin(a.hora) - toMin(b.hora))
+  const subEnds = []
+  const result  = []
+  for (const appt of sorted) {
+    const start = toMin(appt.hora), end = start + APPT_DUR
+    let placed = false
+    for (let c = 0; c < subEnds.length; c++) {
+      if (start >= subEnds[c]) { subEnds[c] = end; result.push({appt, sub:c}); placed=true; break }
+    }
+    if (!placed) { subEnds.push(end); result.push({appt, sub: subEnds.length-1}) }
+  }
+  const total = Math.max(subEnds.length, 1)
+  return result.map(({appt, sub}) => ({...appt, _sub:sub, _total:total}))
+}
+
+// ── Create appointment block element ─────────────────────────
+function makeApptEl(a, left, width) {
+  const key  = a.peluquero?.toLowerCase()
+  const top  = topPx(toMin(a.hora))
+  const h    = Math.max(34, (APPT_DUR / 60) * HOUR_H - 6)
+  const el   = document.createElement('div')
+  el.className = `appt appt-${key}`
+  el.dataset.apptId = a.id
+  if (a.estado === 'cancelada')  el.classList.add('appt-cancelled')
+  if (a.estado === 'completada') el.classList.add('appt-completed')
+  el.style.cssText = `top:${top+2}px; height:${h}px; left:${left}; width:${width};`
+  el.innerHTML = `
+    <div class="sbadge sb-${a.estado}"></div>
+    <div class="appt-name">${esc(a.nombre_cliente)}</div>
+    <div class="appt-svc">${esc(a.servicio_nombre)}</div>
+    <div class="appt-hr">${fmtTime(a.hora)}</div>`
+  return el
+}
+
+// ── Now-line ──────────────────────────────────────────────────
+function addNowLine(col, dateStr_) {
+  const todayStr = dateStr(new Date())
+  if (dateStr_ !== todayStr) return
+  const now = new Date()
+  const nowMin = now.getHours()*60 + now.getMinutes()
+  if (nowMin < S_HOUR*60 || nowMin > E_HOUR*60) return
+  const line = document.createElement('div')
+  line.className = 'now-line'; line.style.top = `${topPx(nowMin)}px`
+  col.appendChild(line)
+}
+
+// ── DAY VIEW ──────────────────────────────────────────────────
+function buildDayDOM() {
+  document.getElementById('cal-title').textContent = 'Vista de Calendario — Día'
+  document.getElementById('cal-content').innerHTML = `
+    <div class="cal-col-hdr" style="grid-template-columns:52px 1fr 1fr 1fr">
+      <div class="col-hdr time-hdr"></div>
+      <div class="col-hdr"><span class="bdot carlos-dot"></span> Carlos</div>
+      <div class="col-hdr"><span class="bdot laura-dot"></span> Laura</div>
+      <div class="col-hdr"><span class="bdot ana-dot"></span> Ana</div>
+    </div>
+    <div class="cal-scroll">
+      <div class="cal-grid" id="cal-grid" style="grid-template-columns:52px 1fr 1fr 1fr">
+        <div class="time-axis" id="time-axis"></div>
+        <div class="barber-col" id="col-carlos"></div>
+        <div class="barber-col" id="col-laura"></div>
+        <div class="barber-col" id="col-ana"></div>
+      </div>
+    </div>`
+  buildTimeAxis(document.getElementById('time-axis'))
+  BARBERS.forEach(b => buildGridLines(document.getElementById(`col-${b}`)))
+}
+
+function renderDayView() {
+  const ds = dateStr(curDate)
+  BARBERS.forEach(b => {
+    const col = document.getElementById(`col-${b}`)
+    col.querySelectorAll('.appt,.now-line').forEach(e => e.remove())
+    addNowLine(col, ds)
+  })
+  appts.forEach(a => {
     const key = a.peluquero?.toLowerCase()
     if (!BARBERS.includes(key)) return
-    const col = document.getElementById(`col-${key}`)
-    const top = topPx(toMin(a.hora))
-    const h   = Math.max(36, (APPT_DUR / 60) * HOUR_H - 6)
-
-    const el = document.createElement('div')
-    el.className = `appt appt-${key}`
-    el.dataset.id = a.id
-    if (a.estado === 'cancelada')  el.classList.add('appt-cancelled')
-    if (a.estado === 'completada') el.classList.add('appt-completed')
-    el.style.cssText = `top:${top+2}px;height:${h}px`
-    el.innerHTML = `
-      <div class="sbadge sb-${a.estado}"></div>
-      <div class="appt-name">${esc(a.nombre_cliente)}</div>
-      <div class="appt-svc">${esc(a.servicio_nombre)}</div>
-      <div class="appt-hr">${fmtTime(a.hora)}</div>`
-    col.appendChild(el)
+    document.getElementById(`col-${key}`).appendChild(makeApptEl(a, '3px', 'calc(100% - 6px)'))
   })
 }
 
-// ─── Table render ─────────────────────────────────────────────
-function renderTable(data) {
+// ── WEEK VIEW ─────────────────────────────────────────────────
+function buildWeekDOM(days) {
+  const todayStr = dateStr(new Date())
+  document.getElementById('cal-title').textContent = 'Vista de Calendario — Semana'
+
+  let hdrHTML = '<div class="col-hdr time-hdr"></div>'
+  days.forEach(d => {
+    const isToday = dateStr(d) === todayStr
+    hdrHTML += `
+      <div class="col-hdr" style="${isToday?'background:rgba(79,142,247,.06)':''}">
+        <div class="week-col-hdr">
+          <span class="week-day-name">${DAY_ABBR[d.getDay()]}</span>
+          <span class="week-day-num ${isToday?'today-num':''}">${d.getDate()}</span>
+        </div>
+      </div>`
+  })
+
+  let gridHTML = '<div class="time-axis" id="time-axis"></div>'
+  days.forEach((d, i) => {
+    const isToday = dateStr(d) === todayStr
+    gridHTML += `<div class="barber-col ${isToday?'week-today-bg':''}" id="week-col-${i}" data-date="${dateStr(d)}"></div>`
+  })
+
+  document.getElementById('cal-content').innerHTML = `
+    <div class="cal-col-hdr" style="grid-template-columns:52px repeat(7,1fr)">
+      ${hdrHTML}
+    </div>
+    <div class="cal-scroll">
+      <div class="cal-grid" id="cal-grid" style="grid-template-columns:52px repeat(7,1fr)">
+        ${gridHTML}
+      </div>
+    </div>`
+
+  buildTimeAxis(document.getElementById('time-axis'))
+  days.forEach((d, i) => buildGridLines(document.getElementById(`week-col-${i}`)))
+}
+
+function renderWeekView(days) {
+  const byDate = {}
+  appts.forEach(a => { (byDate[a.fecha] ??= []).push(a) })
+
+  days.forEach((d, i) => {
+    const ds  = dateStr(d)
+    const col = document.getElementById(`week-col-${i}`)
+    col.querySelectorAll('.appt,.now-line').forEach(e => e.remove())
+    addNowLine(col, ds)
+    const laid = layoutAppts(byDate[ds] || [])
+    laid.forEach(a => {
+      const pct = 100 / a._total
+      col.appendChild(makeApptEl(
+        a,
+        `calc(${a._sub * pct}% + 3px)`,
+        `calc(${pct}% - 6px)`
+      ))
+    })
+  })
+}
+
+// ── MONTH VIEW ────────────────────────────────────────────────
+function renderMonthView() {
+  const { days, month } = monthBounds(curDate)
+  const todayStr = dateStr(new Date())
+  document.getElementById('cal-title').textContent = 'Vista de Calendario — Mes'
+
+  const byDate = {}
+  appts.forEach(a => { (byDate[a.fecha] ??= []).push(a) })
+
+  const dayNames = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom']
+  let html = `<div class="month-grid">`
+  dayNames.forEach(n => { html += `<div class="month-day-name">${n}</div>` })
+
+  days.forEach(d => {
+    const ds = dateStr(d)
+    const outside = d.getMonth() !== month
+    const isToday = ds === todayStr
+    const dayAppts = (byDate[ds] || []).sort((a,b) => a.hora.localeCompare(b.hora))
+    const visible  = dayAppts.slice(0, 2)
+    const more     = dayAppts.length - visible.length
+
+    html += `<div class="month-cell${outside?' outside-month':''}" onclick="goDayFromMonth('${ds}')">`
+    html += `<div class="month-date${isToday?' month-today':''}">${d.getDate()}</div>`
+    visible.forEach(a => {
+      const key  = a.peluquero?.toLowerCase()
+      const canc = a.estado === 'cancelada'
+      html += `<div class="month-appt m-${key}${canc?' m-canc':''}">
+        <span class="m-dot"></span>
+        <span class="m-txt">${esc(a.nombre_cliente)} ${fmtTime(a.hora)}</span>
+      </div>`
+    })
+    if (more > 0) html += `<div class="month-more">+${more} más</div>`
+    html += '</div>'
+  })
+
+  html += '</div>'
+  document.getElementById('cal-content').innerHTML = html
+}
+
+// ── TABLE ─────────────────────────────────────────────────────
+function renderTable() {
+  const showDate = viewMode !== 'day'
+  const colCount = showDate ? 8 : 7
+  const dateCol  = showDate ? '<th>Fecha</th>' : ''
+
+  document.getElementById('tbl-title').textContent =
+    viewMode === 'day' ? 'Lista de Citas' :
+    viewMode === 'week' ? 'Citas de la Semana' : 'Citas del Mes'
+
+  document.getElementById('tbl-head').innerHTML = `
+    <tr>
+      ${dateCol}
+      <th>Cliente</th><th>Teléfono</th><th>Servicio</th>
+      <th>Peluquero</th><th>Hora</th><th>Estado</th><th>Acciones</th>
+    </tr>`
+
   const tbody = document.getElementById('tbl-body')
-  if (!data.length) {
-    tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-icon">✂</div>No hay citas para este día</div></td></tr>`
+  if (!appts.length) {
+    tbody.innerHTML = `<tr><td colspan="${colCount}"><div class="empty"><span class="ms">content_cut</span>No hay citas para este período</div></td></tr>`
     return
   }
-  const sorted = [...data].sort((a,b) => a.hora.localeCompare(b.hora))
+
+  const sorted = [...appts].sort((a,b) =>
+    a.fecha !== b.fecha ? a.fecha.localeCompare(b.fecha) : a.hora.localeCompare(b.hora))
+
   tbody.innerHTML = sorted.map(a => {
     const key  = a.peluquero?.toLowerCase()
     const done = a.estado === 'completada'
     const canc = a.estado === 'cancelada'
+    const dCell = showDate ? `<td class="td-date">${fmtDate(new Date(a.fecha+'T12:00:00'))}</td>` : ''
     return `
-    <tr class="${canc ? 'cancelled-row' : ''}">
+    <tr class="${canc?'cancelled-row':''}">
+      ${dCell}
       <td class="td-name">${esc(a.nombre_cliente)}</td>
       <td class="td-phone">${esc(a.telefono)}</td>
       <td class="td-svc">${esc(a.servicio_nombre)}</td>
@@ -578,93 +850,112 @@ function renderTable(data) {
         </span>
       </td>
       <td style="font-family:monospace;font-variant-numeric:tabular-nums;">${fmtTime(a.hora)}</td>
-      <td>
-        <span class="status-pill sp-${a.estado}">
-          ${ a.estado==='confirmada' ? '● Confirmada' : a.estado==='completada' ? '✓ Completada' : '✕ Cancelada' }
-        </span>
-      </td>
+      <td><span class="sp sp-${a.estado}">${
+        a.estado==='confirmada' ? 'Confirmada' : a.estado==='completada' ? 'Completada' : 'Cancelada'
+      }</span></td>
       <td>
         <div class="actions">
-          <button class="btn btn-ok" onclick="setStatus(${a.id},'completada')" ${done||canc?'disabled':''}>✓ Completar</button>
-          <button class="btn btn-ko" onclick="setStatus(${a.id},'cancelada')"  ${canc?'disabled':''}>✕ Cancelar</button>
+          <button class="btn btn-ok" onclick="setStatus(${a.id},'completada')" ${done||canc?'disabled':''}>
+            <span class="ms">check</span> Completar
+          </button>
+          <button class="btn btn-ko" onclick="setStatus(${a.id},'cancelada')" ${canc?'disabled':''}>
+            <span class="ms">close</span> Cancelar
+          </button>
         </div>
       </td>
     </tr>`
   }).join('')
 }
 
-// ─── Stats ────────────────────────────────────────────────────
-function updateStats(data) {
-  document.getElementById('s-total').textContent = data.length
-  document.getElementById('s-done').textContent  = data.filter(a => a.estado==='completada').length
-  document.getElementById('s-pend').textContent  = data.filter(a => a.estado==='confirmada').length
+// ── Stats ─────────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('s-total').textContent = appts.length
+  document.getElementById('s-done').textContent  = appts.filter(a=>a.estado==='completada').length
+  document.getElementById('s-pend').textContent  = appts.filter(a=>a.estado==='confirmada').length
 }
 
-// ─── Full render ──────────────────────────────────────────────
-function render(data) {
-  renderCal(data)
-  renderTable(data)
-  updateStats(data)
+// ── Main render dispatcher ────────────────────────────────────
+function renderView() {
+  if (viewMode === 'day') {
+    renderDayView()
+  } else if (viewMode === 'week') {
+    const { days } = weekBounds(curDate)
+    renderWeekView(days)
+  } else {
+    renderMonthView()
+  }
+  updateStats()
+  renderTable()
 }
 
-// ─── Data load ────────────────────────────────────────────────
-async function loadDay() {
+// ── Load data ─────────────────────────────────────────────────
+async function loadView() {
   syncHeader()
-  const ds = dateStr(curDate)
+  const { start, end } = getViewRange()
+  viewStart = start; viewEnd = end
+
+  // Build DOM structure first
+  if (viewMode === 'day') {
+    buildDayDOM()
+  } else if (viewMode === 'week') {
+    buildWeekDOM(weekBounds(curDate).days)
+  }
+  // Month is fully rendered by renderMonthView(), no pre-build needed
+
   const { data, error } = await sb.from('citas')
-    .select('*').eq('fecha', ds).order('hora')
+    .select('*').gte('fecha', start).lte('fecha', end)
+    .order('fecha').order('hora')
+
   if (error) { toast('Error', 'No se pudieron cargar las citas', true); console.error(error); return }
   appts = data || []
-  render(appts)
-  setupRT(ds)
+  renderView()
+  setupRT()
 
   const ld = document.getElementById('loading')
-  ld.style.opacity = '0'
-  setTimeout(() => { ld.style.display = 'none' }, 400)
+  ld.style.opacity = '0'; setTimeout(() => { ld.style.display='none' }, 400)
 }
 
-// ─── Realtime ─────────────────────────────────────────────────
-function setupRT(dateFilter) {
+// ── Realtime ──────────────────────────────────────────────────
+function setupRT() {
   if (rtChan) sb.removeChannel(rtChan)
-  rtChan = sb.channel(`citas:${dateFilter}`)
-    .on('postgres_changes', {
-      event: '*', schema: 'public', table: 'citas',
-      filter: `fecha=eq.${dateFilter}`
-    }, handleRT)
+  rtChan = sb.channel('citas-panel')
+    .on('postgres_changes', { event:'*', schema:'public', table:'citas' }, payload => {
+      const fecha = payload.new?.fecha ?? payload.old?.fecha
+      if (fecha && fecha >= viewStart && fecha <= viewEnd) handleRT(payload)
+    })
     .subscribe(s => console.log('[RT]', s))
 }
 
-function handleRT({ eventType, new: nr, old: or }) {
+function handleRT({ eventType, new:nr, old:or }) {
   if (eventType === 'INSERT') {
     appts.push(nr)
-    toast('Nueva cita 🎉', `${nr.nombre_cliente} — ${fmtTime(nr.hora)} con ${nr.peluquero}`)
-    render(appts)
+    toast('Nueva cita', `${nr.nombre_cliente} — ${fmtTime(nr.hora)} con ${nr.peluquero}`)
+    renderView()
     requestAnimationFrame(() => {
-      const el = document.querySelector(`[data-id="${nr.id}"]`)
+      const el = document.querySelector(`[data-appt-id="${nr.id}"]`)
       if (el) el.classList.add('appt-new')
     })
   } else if (eventType === 'UPDATE') {
     const i = appts.findIndex(a => a.id === nr.id)
     if (i !== -1) appts[i] = nr; else appts.push(nr)
-    render(appts)
+    renderView()
   } else if (eventType === 'DELETE') {
     appts = appts.filter(a => a.id !== or.id)
-    render(appts)
+    renderView()
   }
 }
 
-// ─── Status update ────────────────────────────────────────────
+// ── Status update ─────────────────────────────────────────────
 window.setStatus = async (id, estado) => {
   const { error } = await sb.from('citas').update({ estado }).eq('id', id)
   if (error) { toast('Error', 'No se pudo actualizar', true); console.error(error) }
-  // Realtime handles UI update
 }
 
-// ─── Toast ────────────────────────────────────────────────────
-function toast(title, msg, err = false) {
+// ── Toast ─────────────────────────────────────────────────────
+function toast(title, msg, err=false) {
   const wrap = document.getElementById('toasts')
-  const el = document.createElement('div')
-  el.className = `toast${err ? ' err' : ''}`
+  const el   = document.createElement('div')
+  el.className = `toast${err?' err':''}`
   el.innerHTML = `<div class="toast-title">${esc(title)}</div><div class="toast-body">${esc(msg)}</div>`
   wrap.appendChild(el)
   setTimeout(() => {
@@ -674,18 +965,16 @@ function toast(title, msg, err = false) {
   }, 4200)
 }
 
-// ─── Util ─────────────────────────────────────────────────────
-function esc(s) {
-  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-}
+// ── Init ──────────────────────────────────────────────────────
+loadView()
 
-// ─── Init ─────────────────────────────────────────────────────
-buildCalStructure()
-loadDay()
-
-// Refresh now-line every minute when on today
 setInterval(() => {
-  if (dateStr(curDate) === dateStr(new Date())) renderCal(appts)
+  if (viewMode === 'day' && dateStr(curDate) === dateStr(new Date())) renderDayView()
+  if (viewMode === 'week') {
+    const { days } = weekBounds(curDate)
+    const todayStr = dateStr(new Date())
+    if (days.some(d => dateStr(d) === todayStr)) renderWeekView(days)
+  }
 }, 60_000)
 </script>
 </body>
