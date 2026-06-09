@@ -643,7 +643,7 @@ function layoutAppts(dayAppts) {
 }
 
 // ── Create appointment block element ─────────────────────────
-function makeApptEl(a, left, width) {
+function makeApptEl(a, left, width, showBarber = false) {
   const key  = a.peluquero?.toLowerCase()
   const top  = topPx(toMin(a.hora))
   const h    = Math.max(34, (APPT_DUR / 60) * HOUR_H - 6)
@@ -657,7 +657,7 @@ function makeApptEl(a, left, width) {
     <div class="sbadge sb-${a.estado}"></div>
     <div class="appt-name">${esc(a.nombre_cliente)}</div>
     <div class="appt-svc">${esc(a.servicio_nombre)}</div>
-    <div class="appt-hr">${fmtTime(a.hora)}</div>`
+    <div class="appt-hr">${fmtTime(a.hora)}${showBarber ? ' · ' + esc(a.peluquero) : ''}</div>`
   return el
 }
 
@@ -761,7 +761,8 @@ function renderWeekView(days) {
       col.appendChild(makeApptEl(
         a,
         `calc(${a._sub * pct}% + 3px)`,
-        `calc(${pct}% - 6px)`
+        `calc(${pct}% - 6px)`,
+        true
       ))
     })
   })
@@ -795,7 +796,7 @@ function renderMonthView() {
       const canc = a.estado === 'cancelada'
       html += `<div class="month-appt m-${key}${canc?' m-canc':''}">
         <span class="m-dot"></span>
-        <span class="m-txt">${esc(a.nombre_cliente)} ${fmtTime(a.hora)}</span>
+        <span class="m-txt">${esc(a.nombre_cliente)} · ${esc(a.peluquero)} ${fmtTime(a.hora)}</span>
       </div>`
     })
     if (more > 0) html += `<div class="month-more">+${more} más</div>`
