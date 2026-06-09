@@ -161,11 +161,32 @@
       100%{ box-shadow: 0 0 0 0 rgba(152,195,121,0); }
     }
 
+    /* ── Layout fijo al viewport ─────────────────────── */
+    html, body { height: 100vh; overflow: hidden; }
+    body { display: flex; flex-direction: column; }
+
     /* ── Main ─────────────────────────────────────────── */
-    .main { padding: 20px 22px; display: flex; flex-direction: column; gap: 20px; }
+    .main {
+      flex: 1; min-height: 0;
+      padding: 16px 20px;
+      display: flex; flex-direction: column;
+      gap: 14px; overflow: hidden;
+    }
 
     /* ── Section ──────────────────────────────────────── */
     .section { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+
+    /* Sección calendario: crece para llenar el espacio disponible */
+    #cal-section {
+      flex: 1; min-height: 0;
+      display: flex; flex-direction: column;
+    }
+    #cal-section .section-hdr { flex-shrink: 0; }
+    #cal-content { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .cal-col-hdr { flex-shrink: 0; }
+
+    /* Sección tabla: altura natural, sin scroll vertical */
+    #tbl-section { flex: none; overflow: hidden; }
     .section-hdr {
       padding: 13px 20px; border-bottom: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between;
@@ -190,7 +211,7 @@
     .laura-dot  { background: var(--laura); }
     .ana-dot    { background: var(--ana); }
 
-    .cal-scroll { overflow-y: auto; max-height: 660px; }
+    .cal-scroll { flex: 1; min-height: 0; overflow-y: auto; }
     .cal-grid { display: grid; }
 
     /* time axis */
@@ -452,7 +473,7 @@
 
 <!-- ═══ MAIN ══════════════════════════════════════════════ -->
 <main class="main">
-  <div class="section">
+  <div class="section" id="cal-section">
     <div class="section-hdr">
       <span class="section-title" id="cal-title">Vista de Calendario</span>
     </div>
